@@ -1,0 +1,1 @@
+console.log("Hello One Piece Awesome Cardgame")
