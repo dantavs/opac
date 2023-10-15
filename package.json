@@ -8,7 +8,11 @@
     "node": "20.8.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --watch src/index.js",
+    "start":"node src/index.js",
+    "test": "node --test src/",
+    "test:dev": "node --test --watch src",
+    "test:cov": "node --experimental-test-coverage --test src"
   },
   "repository": {
     "type": "git",
