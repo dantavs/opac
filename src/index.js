@@ -1,1 +1,1 @@
-console.log("Hello One Piece Awesome Cardgame!")
+console.log("Hello One Piece Awesome Cardgame!!")
