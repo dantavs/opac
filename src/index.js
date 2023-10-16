@@ -1,6 +1,5 @@
 import { createServer } from 'node:http'
-import { stringify } from 'node:querystring'
-import { OPGStartController } from './controllers/one-piece-game-controller'
+import { OPGStartController } from './controllers/one-piece-game-controller.js'
 
 const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -25,3 +24,5 @@ const app = createServer(handler)
         , () => console.log('App is running!'))
 
 console.log("Hello One Piece Awesome Cardgame!!")
+
+export {app, headers}
