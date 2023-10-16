@@ -65,4 +65,25 @@ describe('Deck Entity test suite', () => {
 
         notDeepStrictEqual(deck.cards, orignalDeck)
     })
+    it('should draw a card from the deck', () => {
+        const deck = new Deck()
+
+        const card1 = new Card("cardA", 1000, "img.url")
+        const card2 = new Card("cardB", 2000, "img.url")
+        const card3 = new Card("cardC", 3000, "img.url")
+        const card4 = new Card("cardD", 4000, "img.url")
+        const card5 = new Card("cardE", 5000, "img.url")
+
+        deck.addCard(card1)
+        deck.addCard(card2)
+        deck.addCard(card3)
+        deck.addCard(card4)
+        deck.addCard(card5)
+
+        const cardNumber = deck.cards.length
+
+        deck.draw()
+
+        strictEqual(deck.cards.length, cardNumber - 1)
+    })
 })

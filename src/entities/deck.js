@@ -32,4 +32,8 @@ export class Deck {
 
         return true
     }
+
+    draw(){
+        return this.cards.shift()
+    }
 }

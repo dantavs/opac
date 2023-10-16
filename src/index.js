@@ -1,5 +1,6 @@
 import { createServer } from 'node:http'
 import { stringify } from 'node:querystring'
+import { OPGStartController } from './controllers/one-piece-game-controller'
 
 const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -8,6 +9,13 @@ const headers = {
 }
 
 async function handler(request, response){
+    const url = new URL(request.url, "http://localhost:3000")
+    const path = url.pathname
+
+    if (path === "/onePieceGame"){
+        return OPGStartController(request, response)
+    }
+
     response.writeHead(200, headers)
     response.end(JSON.stringify({message: 'Game Server if on!'}))
 }
