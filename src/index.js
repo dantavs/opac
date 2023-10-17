@@ -1,5 +1,5 @@
 import { createServer } from 'node:http'
-import { OPGStartController } from './controllers/one-piece-game-controller.js'
+import { OPGNextRoundController, OPGStartController } from './controllers/one-piece-game-controller.js'
 import { OPGNextRound } from './services/opg-next-round.js'
 
 const headers = {
@@ -17,11 +17,11 @@ async function handler(request, response){
     }
 
     if (path === "/OPGNextRound"){
-        return OPGNextRound(request, response)
+        return OPGNextRoundController(request, response)
     }
 
     response.writeHead(200, headers)
-    response.end(JSON.stringify({message: 'Game Server if on!'}))
+    response.end(JSON.stringify({message: 'Game Server is on!'}))
 }
 
 const app = createServer(handler)

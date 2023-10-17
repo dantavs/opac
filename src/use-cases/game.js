@@ -16,17 +16,30 @@ export class Game {
     winner
     status
 
-    constructor(deck){
+    constructor(deck, playerA, playerB, status){
         if(!validParameters(deck)){
             throw new Error('Invalid parameters!')
         }
 
         this.deck = CreateGameDeck(deck)
 
-        this.playerA = new Player("Player A", 3)
-        this.playerB = new Player("Player B", 3)
+        if(playerA){
+            this.playerA = new Player(playerA.name, playerA.hp)
+        }else{
+            this.playerA = new Player("Player A", 3)
+        }
 
-        this.status = "notStarted"
+        if(playerB){
+            this.playerB = new Player(playerB.name, playerB.hp)
+        }else{
+            this.playerB = new Player("Player B", 3)
+        }
+
+        if(status){
+            this.status = status
+        }else{
+            this.status = "notStarted"
+        }
     }
 
     start(){
