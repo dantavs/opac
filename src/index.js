@@ -1,5 +1,6 @@
 import { createServer } from 'node:http'
 import { OPGStartController } from './controllers/one-piece-game-controller.js'
+import { OPGNextRound } from './services/opg-next-round.js'
 
 const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -13,6 +14,10 @@ async function handler(request, response){
 
     if (path === "/onePieceGame"){
         return OPGStartController(request, response)
+    }
+
+    if (path === "/OPGNextRound"){
+        return OPGNextRound(request, response)
     }
 
     response.writeHead(200, headers)
