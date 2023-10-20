@@ -1,6 +1,5 @@
 import { createServer } from 'node:http'
-import { OPGNextRoundController, OPGStartController } from './controllers/one-piece-game-controller.js'
-import { MongoClient } from 'mongodb'
+import { OPGNextRoundController, OPGStartController, JKGStartController } from './controllers/one-piece-game-controller.js'
 
 const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -20,12 +19,13 @@ async function handler(request, response){
         return OPGNextRoundController(request, response)
     }
 
+    if (path === "/jujutsuKaisenGame"){
+        return JKGStartController(request, response)
+    }
+
     response.writeHead(200, headers)
     response.end(JSON.stringify({message: 'Game Server is on!'}))
 }
-
-const uri = ""
-const mogodb = new MongoClient(uri)
 
 const app = createServer(handler)
     .listen(process.env.PORT ? Number(process.env.PORT) : 3333
