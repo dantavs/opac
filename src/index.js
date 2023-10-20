@@ -1,6 +1,6 @@
 import { createServer } from 'node:http'
 import { OPGNextRoundController, OPGStartController } from './controllers/one-piece-game-controller.js'
-import { OPGNextRound } from './services/opg-next-round.js'
+import { MongoClient } from 'mongodb'
 
 const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -23,6 +23,9 @@ async function handler(request, response){
     response.writeHead(200, headers)
     response.end(JSON.stringify({message: 'Game Server is on!'}))
 }
+
+const uri = ""
+const mogodb = new MongoClient(uri)
 
 const app = createServer(handler)
     .listen(process.env.PORT ? Number(process.env.PORT) : 3333

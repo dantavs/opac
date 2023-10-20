@@ -15,6 +15,7 @@ export class Game {
     playerB
     winner
     status
+    cardback
 
     constructor(deck, playerA, playerB, status){
         if(!validParameters(deck)){
