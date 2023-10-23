@@ -25,6 +25,9 @@
   },
   "homepage": "https://github.com/dantavs/opac#readme",
   "dependencies": {
-    "mongodb": "^6.1.0"
+    "@prisma/client": "^5.4.2"
+  },
+  "devDependencies": {
+    "prisma": "^5.4.2"
   }
 }
