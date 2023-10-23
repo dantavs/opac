@@ -7,7 +7,7 @@ import { Game } from '../use-cases/game.js'
 import { onePieceGameDeck } from '../game-data/one-piece-deck.js'
 
 export async function OPGStartController(request, response){  
-    const onePieceGame = new OPGStart()
+    const onePieceGame = await OPGStart()
 
     response.writeHead(200, headers)
     response.end(JSON.stringify(onePieceGame))

@@ -24,7 +24,7 @@ model Players {
   game Games @relation(fields: [gameID], references: [id])
   gameID String
   hp Int
-  cards PlayerCards[]
+  playerCards PlayerCards[]
 
   @@map("players")
 }
@@ -34,19 +34,20 @@ model Cards {
   name String
   power Int
   img String
-  set String
   playerCards PlayerCards[]
+  set String
 
   @@map("cards")
 }
 
 model PlayerCards {
-  id String @id @default(uuid())
-  player Players @relation(fields: [playerId], references: [id])
+  id  String @id  @default(uuid())
+  played Boolean @default(false)
+  player Players @relation(fields: [playerId],references: [id])
   playerId String
   card Cards @relation(fields: [cardId], references: [id])
   cardId String
-  played Boolean
+
 
   @@map("playerCards")
 }

@@ -14,7 +14,8 @@ export async function OPGStart(){
     })
 
     const cards = await prisma.cards.findMany({
-        where: {
+        select: {id: true}
+        ,where: {
             set: "OPG"
         }
     })
@@ -22,7 +23,7 @@ export async function OPGStart(){
     const playerA = await prisma.players.create({
         data: {
             name: game.playerA.name
-            ,id: game.playerA.hp
+            ,hp: game.playerA.hp
             ,gameID: gameDB.id
         }
     })
@@ -30,13 +31,34 @@ export async function OPGStart(){
     const playerB = await prisma.players.create({
         data: {
             name: game.playerB.name
-            ,id: game.playerB.hp
+            ,hp: game.playerB.hp
             ,gameID: gameDB.id
         }
     })
 
+
+    for (let i=0;i<cards.length;i++){
+        await prisma.playerCards.create({
+            data: {
+               cardId:  cards[i].id
+               ,playerId: playerA.id
+            }
+        })
+
+        await prisma.playerCards.create({
+            data: {
+               cardId:  cards[i].id
+               ,playerId: playerB.id
+            }
+        })
+
+    }
+
+
     game.id = gameDB.id
     game.type = "OPG"
+    game.playerA.id = playerA.id
+    game.playerB.id = playerB.id
 
     game.start()
 

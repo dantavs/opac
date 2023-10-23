@@ -1,4 +1,5 @@
 export class Player {
+    id
     name
     hp
     card
