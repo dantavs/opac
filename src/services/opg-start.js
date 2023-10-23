@@ -1,10 +1,42 @@
 import { onePieceGameDeck } from "../game-data/one-piece-deck.js";
 import { Game } from "../use-cases/game.js";
+import { prisma } from "../index.js";
 
-export function OPGStart(){
+export async function OPGStart(){
     const game = new Game(onePieceGameDeck)
 
     game.cardback = "https://1757140519.rsc.cdn77.org/blog/wp-content/uploads/2022/07/One-Piece-Symbol.png"
+
+    const gameDB = await prisma.games.create({
+        data: {
+            set: "OPG"
+        }
+    })
+
+    const cards = await prisma.cards.findMany({
+        where: {
+            set: "OPG"
+        }
+    })
+
+    const playerA = await prisma.players.create({
+        data: {
+            name: game.playerA.name
+            ,id: game.playerA.hp
+            ,gameID: gameDB.id
+        }
+    })
+
+    const playerB = await prisma.players.create({
+        data: {
+            name: game.playerB.name
+            ,id: game.playerB.hp
+            ,gameID: gameDB.id
+        }
+    })
+
+    game.id = gameDB.id
+    game.type = "OPG"
 
     game.start()
 

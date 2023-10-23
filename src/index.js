@@ -1,4 +1,5 @@
 import { createServer } from 'node:http'
+import { PrismaClient } from '@prisma/client'
 import { OPGNextRoundController, OPGStartController, JKGStartController } from './controllers/one-piece-game-controller.js'
 
 const headers = {
@@ -27,10 +28,12 @@ async function handler(request, response){
     response.end(JSON.stringify({message: 'Game Server is on!'}))
 }
 
+const prisma = new PrismaClient()
+
 const app = createServer(handler)
     .listen(process.env.PORT ? Number(process.env.PORT) : 3333
         , () => console.log('App is running!'))
 
 console.log("Hello One Piece Awesome Cardgame!!")
 
-export {app, headers}
+export {app, headers, prisma}

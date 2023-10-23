@@ -1,5 +1,6 @@
 import { CreateGameDeck } from './create-game-deck.js'
 import { Player } from '../entities/player.js'
+import { prisma } from '../index.js'
 
 function validParameters(deck){
     if(!deck || deck === "" || deck.lenth === 0){
@@ -16,6 +17,8 @@ export class Game {
     winner
     status
     cardback
+    id
+    type
 
     constructor(deck, playerA, playerB, status){
         if(!validParameters(deck)){
