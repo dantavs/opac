@@ -14,32 +14,53 @@ export async function OPGStartController(request, response){
 }
 
 export async function OPGNextRoundController(request, response){    
-    const { deck, playerA, playerB, status } = JSON.parse(await once(request, 'data'))
-
-    const gameId = ""
-    const playedCardId = ""
+    console.log('OPG Next Round')
+    //const { deck, playerA, playerB, status } = JSON.parse(await once(request, 'data'))
+    const { gameId, cardId } = JSON.parse(await once(request, 'data'))
 
     //get game
-    const gameDb = prisma.games.findUnique({
+    const gameDb = await prisma.games.findUnique({
         where: {
             id: gameId
         }
     })
+
     //get playerd ID and played card ID
+    const playedCard = await prisma.playerCards.findUnique({
+        where: {
+            id: cardId
+        }
+    })
+
+    console.log({playedCard})
+
+    await prisma.playerCards.update({
+        data: {
+            played: true
+        }
+        ,where: {
+            id: playedCard.id
+        }
+    })
+
+    console.log({playedCard})
+
+
     //select radomly the pc played card
+    
     //check round winner
     //update loser HP
     //check if game ended
     //update decks
     //respond
 
-    const game = new Game(onePieceGameDeck, playerA, playerB, status)
-    game.deck.shuffle()
+    //const game = new Game(onePieceGameDeck, playerA, playerB, status)
+   // game.deck.shuffle()
 
-    const onePieceGame = OPGNextRound(game)
+   // const onePieceGame = OPGNextRound(game)
 
     response.writeHead(200, headers)
-    response.end(JSON.stringify(onePieceGame))
+    response.end(JSON.stringify(gameDb.id))
 }
 
 export async function JKGStartController(request, response){  

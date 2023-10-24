@@ -1,0 +1,26 @@
+<html>
+    <head></head>
+    <body>
+        <span id="cardInfo">Test</span>
+        <button id="btAction">Call</button>
+        <script>
+            async function getGameData() {
+                const data = {
+                    gameId: '4da14058-5ac2-43e6-a36a-90a4a9090373'
+                    ,cardId: '2b8556b5-eb26-4757-a6d1-74f4170890bc'
+                }
+
+                const gameData = await fetch("http://localhost:3333/OPGNextRound",{
+                    method: 'POST'
+                    ,body: JSON.stringify(data)
+                })
+            }
+
+
+            const button = document.getElementById("btAction")
+            button.onclick = async function () {
+                await getGameData()
+            }
+        </script> 
+    </body>
+</html>
