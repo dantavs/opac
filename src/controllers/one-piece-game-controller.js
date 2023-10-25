@@ -15,7 +15,6 @@ export async function OPGStartController(request, response){
 }
 
 export async function OPGNextRoundController(request, response){    
-    console.log('OPG Next Round')
     const { gameId, cardId } = JSON.parse(await once(request, 'data'))
 
    const onePieceGame = await handleNextRound(gameId, cardId)

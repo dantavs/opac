@@ -1,7 +1,6 @@
 import { prisma } from "../index.js";
 
 export async function GetPlayedCard(cardId){
-    console.log('Get Played Card: ', cardId)
     const playedCardInfo = await prisma.playerCards.findUnique({
         where: {
             id: cardId

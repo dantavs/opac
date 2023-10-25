@@ -49,21 +49,45 @@ export async function handleNextRound(gameId, playedCardId){
     }
 
     let winnerCard, winner, loser 
-    if (playerA.card.power > playerB.card.power){
+    if(playerA.card.ṕower === 1000 && playerB.card.power === 5000){
         winnerCard = playerA.card
         winner = playerA.name
         loser = playerB.name
         playerB.reduceHP()
         await updateLoserHP(playerB.id, playerB.hp)
+
     }else{
-        winnerCard = playerB.card
-        winner = playerB.name
-        loser = playerA.name
-        playerA.reduceHP()
-        await updateLoserHP(playerA.id, playerA.hp)
+        if(playerA.card.ṕower === 5000 && playerB.card.power === 1000){
+            winnerCard = playerB.card
+            winner = playerB.name
+            loser = playerA.name
+            playerA.reduceHP()
+            await updateLoserHP(playerA.id, playerA.hp)
+
+        }else{
+            
+            if (playerA.card.power > playerB.card.power){
+                winnerCard = playerA.card
+                winner = playerA.name
+                loser = playerB.name
+                playerB.reduceHP()
+                await updateLoserHP(playerB.id, playerB.hp)
+            }else{
+                winnerCard = playerB.card
+                winner = playerB.name
+                loser = playerA.name
+                playerA.reduceHP()
+                await updateLoserHP(playerA.id, playerA.hp)
+            }
+        }   
     }
 
     const game = new Game(deck, playerA, playerB, "inProgress")
+    
+    if (playerA.hp === 0 || playerB.hp === 0){
+        game.status = "gameOver"
+    }
+    
 
     game.winner = winner
 
