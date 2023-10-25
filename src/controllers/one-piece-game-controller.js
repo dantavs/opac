@@ -1,10 +1,11 @@
 import { headers, prisma } from '../index.js'
-import { OPGNextRound } from '../services/opg-next-round.js'
+import { handleNextRound } from '../services/opg-next-round.js'
 import { OPGStart } from '../services/opg-start.js'
 import { JKGStart } from '../services/jkg-start.js'
 import { once } from 'node:events'
 import { Game } from '../use-cases/game.js'
 import { onePieceGameDeck } from '../game-data/one-piece-deck.js'
+import { notEqual } from 'node:assert'
 
 export async function OPGStartController(request, response){  
     const onePieceGame = await OPGStart()
@@ -15,52 +16,12 @@ export async function OPGStartController(request, response){
 
 export async function OPGNextRoundController(request, response){    
     console.log('OPG Next Round')
-    //const { deck, playerA, playerB, status } = JSON.parse(await once(request, 'data'))
     const { gameId, cardId } = JSON.parse(await once(request, 'data'))
 
-    //get game
-    const gameDb = await prisma.games.findUnique({
-        where: {
-            id: gameId
-        }
-    })
-
-    //get playerd ID and played card ID
-    const playedCard = await prisma.playerCards.findUnique({
-        where: {
-            id: cardId
-        }
-    })
-
-    console.log({playedCard})
-
-    await prisma.playerCards.update({
-        data: {
-            played: true
-        }
-        ,where: {
-            id: playedCard.id
-        }
-    })
-
-    console.log({playedCard})
-
-
-    //select radomly the pc played card
-    
-    //check round winner
-    //update loser HP
-    //check if game ended
-    //update decks
-    //respond
-
-    //const game = new Game(onePieceGameDeck, playerA, playerB, status)
-   // game.deck.shuffle()
-
-   // const onePieceGame = OPGNextRound(game)
+   const onePieceGame = await handleNextRound(gameId, cardId)
 
     response.writeHead(200, headers)
-    response.end(JSON.stringify(gameDb.id))
+    response.end(JSON.stringify(onePieceGame))
 }
 
 export async function JKGStartController(request, response){  

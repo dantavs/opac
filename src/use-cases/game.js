@@ -3,7 +3,7 @@ import { Player } from '../entities/player.js'
 import { prisma } from '../index.js'
 
 function validParameters(deck){
-    if(!deck || deck === "" || deck.lenth === 0){
+    if(!deck || deck === "" || deck.length === 0){
         return false
     }
 

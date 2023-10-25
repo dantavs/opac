@@ -2,6 +2,7 @@ export class Player {
     id
     name
     hp
+    deck
     card
 
     constructor(name, hp){

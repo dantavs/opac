@@ -21,7 +21,7 @@ export class Card {
     power
     img
 
-    constructor(name, power, img){
+    constructor(name, power, img, id){
         if(!validParameters(name, power, img)){
             throw new Error('Invalid parameters!')
         }
@@ -30,5 +30,6 @@ export class Card {
         this.name = name
         this.power = power
         this.img = img
+        this.id = id
     }
 }
