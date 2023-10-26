@@ -5,6 +5,7 @@ import { Player } from "../entities/player.js"
 import { Card } from "../entities/card.js"
 import { Game } from "../use-cases/game.js"
 import { prisma } from "../index.js"
+import { CreatePlayerDeck } from "../use-cases/create-player-deck.js"
 
 export async function handleNextRound(gameId, playedCardId){
 
@@ -19,9 +20,9 @@ export async function handleNextRound(gameId, playedCardId){
     playerA.id = gameData.players[0].id
     playerA.card = playerACard
 
-    const computerPlayedCard = await GetComputerPlayedCard(gameId, playedCardId)
+    const computerPlayedCard = await GetComputerPlayedCard(gameId, playerA.id)
     const playerBCard = new Card(computerPlayedCard.name, computerPlayedCard.power, computerPlayedCard.img)
-    playerACard.id = computerPlayedCard.id
+    playerBCard.id = computerPlayedCard.id
 
     const playerB = new Player(gameData.players[1].name, gameData.players[1].hp)
     playerB.id = gameData.players[1].id
@@ -49,7 +50,7 @@ export async function handleNextRound(gameId, playedCardId){
     }
 
     let winnerCard, winner, loser 
-    if(playerA.card.ṕower === 1000 && playerB.card.power === 5000){
+    if(playerA.card.power === 1000 && playerB.card.power === 5000){
         winnerCard = playerA.card
         winner = playerA.name
         loser = playerB.name
@@ -57,7 +58,7 @@ export async function handleNextRound(gameId, playedCardId){
         await updateLoserHP(playerB.id, playerB.hp)
 
     }else{
-        if(playerA.card.ṕower === 5000 && playerB.card.power === 1000){
+        if(playerA.card.power === 5000 && playerB.card.power === 1000){
             winnerCard = playerB.card
             winner = playerB.name
             loser = playerA.name
@@ -90,6 +91,10 @@ export async function handleNextRound(gameId, playedCardId){
     
 
     game.winner = winner
+    game.playerA = playerA
+    game.playerB = playerB
+    //game.playerA.deck = CreatePlayerDeck(deck, playerA.id)
+    //game.playerB.deck = CreatePlayerDeck(deck, playerB.id)
 
     return game
 }

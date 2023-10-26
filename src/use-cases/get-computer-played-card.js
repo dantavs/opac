@@ -13,6 +13,7 @@ export async function GetComputerPlayedCard(gamedId, playerId){
     const computerCards = await prisma.playerCards.findMany({
         where: {
             playerId: computerPlayer.id
+            ,played: false
         }
     })
 

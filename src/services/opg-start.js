@@ -2,6 +2,7 @@ import { onePieceGameDeck } from "../game-data/one-piece-deck.js";
 import { Game } from "../use-cases/game.js";
 import { prisma } from "../index.js";
 import { Card } from "../entities/card.js";
+import { CreatePlayerDeck } from "../use-cases/create-player-deck.js";
 
 export async function OPGStart(){
     const game = new Game(onePieceGameDeck)
@@ -15,8 +16,7 @@ export async function OPGStart(){
     })
 
     const cards = await prisma.cards.findMany({
-        select: {id: true}
-        ,where: {
+        where: {
             set: "OPG"
         }
     })
@@ -37,37 +37,12 @@ export async function OPGStart(){
         }
     })
 
-    const playerADeck = []
-    const playerBDeck = []
-
-    for (let i=0;i<cards.length;i++){
-        const playerACard = await prisma.playerCards.create({
-            data: {
-               cardId:  cards[i].id
-               ,playerId: playerA.id
-            }
-        })
-
-        playerADeck.push(playerACard.id)
-
-        const playerBCard = await prisma.playerCards.create({
-            data: {
-               cardId:  cards[i].id
-               ,playerId: playerB.id
-            }
-        })
-
-        playerBDeck.push(playerBCard.id)
-
-    }
-
-
     game.id = gameDB.id
     game.type = "OPG"
     game.playerA.id = playerA.id
     game.playerB.id = playerB.id
-    game.playerA.deck = playerADeck
-    game.playerB.deck = playerBDeck
+    game.playerA.deck = await CreatePlayerDeck(cards, playerA.id)
+    game.playerB.deck = await CreatePlayerDeck(cards, playerB.id)
 
     game.start()
 
