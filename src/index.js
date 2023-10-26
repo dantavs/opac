@@ -1,6 +1,6 @@
 import { createServer } from 'node:http'
 import { PrismaClient } from '@prisma/client'
-import { OPGNextRoundController, OPGStartController, JKGStartController } from './controllers/one-piece-game-controller.js'
+import { NextRoundController, GameStartController } from './controllers/game-start-controller.js'
 
 const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -13,15 +13,15 @@ async function handler(request, response){
     const path = url.pathname
 
     if (path === "/onePieceGame"){
-        return OPGStartController(request, response)
+        return GameStartController(request, response, "OPG")
     }
 
     if (path === "/OPGNextRound"){
-        return OPGNextRoundController(request, response)
+        return NextRoundController(request, response)
     }
 
     if (path === "/jujutsuKaisenGame"){
-        return JKGStartController(request, response)
+        return GameStartController(request, response, "JKG")
     }
 
     response.writeHead(200, headers)

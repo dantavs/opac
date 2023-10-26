@@ -5,9 +5,8 @@ import { Player } from "../entities/player.js"
 import { Card } from "../entities/card.js"
 import { Game } from "../use-cases/game.js"
 import { prisma } from "../index.js"
-import { CreatePlayerDeck } from "../use-cases/create-player-deck.js"
 
-export async function handleNextRound(gameId, playedCardId){
+export async function NextRound(gameId, playedCardId){
 
     const gameData = new GetGameData()
     await gameData.execute(gameId)
